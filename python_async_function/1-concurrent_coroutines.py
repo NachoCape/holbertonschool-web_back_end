@@ -5,16 +5,14 @@ import asyncio
 wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-async def wait_n(n:int, max_delay:int) -> typing.List[float]:
-    
+async def wait_n(n: int, max_delay: int) -> typing.List[float]:
     listy = []
-    for i in range(0, n):
+    for _ in range(n):
         elem = await wait_random(max_delay)
-        if len(listy) == 0:
-            listy.append(elem)
+        for j in range(len(listy)):
+            if elem <= listy[j]:
+                listy.insert(j, elem)
+                break
         else:
-            for j in range(0, len(listy)):
-                if elem <= listy[j]:
-                    listy.insert(j, elem)
-                    break  
+            listy.append(elem)
     return listy
